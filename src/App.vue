@@ -4,6 +4,17 @@
 	</div>
 </template>
 
+<script>
+export default {
+	name: "App",
+	// Mounted is a life cycle method- is called during cert ain times of a components life.
+	mounted() {
+		const isDarkMode = this.$store.getters.isDarkMode;
+		document.body.style.background = isDarkMode ? "#212c4f" : "#f0f3f5";
+	},
+};
+</script>
+
 <style lang="scss">
 body {
 	background-color: $dark-blue;
