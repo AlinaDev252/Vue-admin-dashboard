@@ -1,13 +1,12 @@
 <template>
 	<div class="container" :class="{ 'light-background': !isDarkMode, 'dark-background': isDarkMode }">
-		<div class="request">
+		<div class="request" :class="{ 'light-request': isDarkMode, 'dark-request': !isDarkMode }">
 			Don't have a Design+Code HQ account?
-			<router-link to="/request" :class="{ 'light-request': isDarkMode, 'dark-request': !isDarkMode }"
-				>Request an account</router-link
-			>
+			<router-link to="/request">Request an account</router-link>
 		</div>
 		<div class="login">
-			<img src="@/assets/logo.png" />
+			<img src="@/assets/logo.png" v-show="isDarkMode" />
+			<img src="@/assets/logo.png" v-show="!isDarkMode" />
 			<h4 :class="{ 'light-text': isDarkMode, 'dark-text': !isDarkMode }">Sign into Design+Code HQ</h4>
 			<input type="email" placeholder="Email" :class="{ 'light-field': isDarkMode, 'dark-field': !isDarkMode }" />
 			<input type="password" placeholder="Password" :class="{ 'light-field': isDarkMode, 'dark-field': !isDarkMode }" />
@@ -82,6 +81,10 @@ export default {
 
 .login {
 	width: 400px;
+
+	img {
+		width: 6em;
+	}
 }
 
 .request {
