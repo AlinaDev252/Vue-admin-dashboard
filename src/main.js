@@ -13,13 +13,12 @@ netlifyIdentityWidget.init();
 
 // Initialize GoTrue jJS for Netlify
 export const auth = new GoTrue({
-	APIUrl: "https://alinas-vue-dashboard.netlify.app/.netlify/identity",
-	setCookie: true,
+  APIUrl: "https://alinas-vue-dashboard.netlify.app/.netlify/identity",
+  setCookie: true,
 });
 
 new Vue({
-	router,
-	store,
-	render: (h) => h(App),
+  router,
+  store,
+  render: (h) => h(App),
 }).$mount("#app");
- 

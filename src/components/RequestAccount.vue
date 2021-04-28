@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: "RequestAccount ",
+	name: "RequestAccount",
 	data() {
 		return {
 			show: false,
