@@ -86,6 +86,9 @@ export default {
 		} else if (params.userRecoveredAccount) {
 			this.hasText = true;
 			this.text = `A recovery email has been sent to ${params.email}`;
+		} else if (params.userRequestedAccount) {
+			this.hasText = true;
+			this.text = `Your request has been sent to an administrator for ${params.email}`;
 		}
 	},
 };

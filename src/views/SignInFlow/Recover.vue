@@ -4,7 +4,7 @@
 		<div class="login">
 			<img src="@/assets/logo.png" v-show="isDarkMode" />
 			<img src="@/assets/logo.png" v-show="!isDarkMode" />
-			<h4 :class="{ 'light-text': isDarkMode, 'dark-text': !isDarkMode }">Sign into Design+Code HQ</h4>
+			<h4 :class="{ 'light-text': isDarkMode, 'dark-text': !isDarkMode }">Recover Account</h4>
 			<form @submit.prevent="onSubmit">
 				<input
 					type="email"
@@ -53,15 +53,20 @@ export default {
 		onSubmit() {
 			const email = this.email;
 
-			auth.requestPasswordRecovery(email).then(() => {
-				this.$router.push({
-					name: "signin",
-					params: {
-						userRecoveredAccount: true,
-						email: email,
-					},
+			auth
+				.requestPasswordRecovery(email)
+				.then(() => {
+					this.$router.push({
+						name: "signin",
+						params: {
+							userRecoveredAccount: true,
+							email: email,
+						},
+					});
+				})
+				.catch((error) => {
+					alert("Error: " + error);
 				});
-			});
 		},
 	},
 	mounted() {

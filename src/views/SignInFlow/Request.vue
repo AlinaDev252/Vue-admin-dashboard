@@ -1,11 +1,9 @@
 <template>
 	<div class="container" :class="{ 'light-background': !isDarkMode, 'dark-background': isDarkMode }">
-		<Notification v-if="hasText" :text="text" />
-		<RequestAccount />
 		<div class="login">
 			<img src="@/assets/logo.png" v-show="isDarkMode" />
 			<img src="@/assets/logo.png" v-show="!isDarkMode" />
-			<h4 :class="{ 'light-text': isDarkMode, 'dark-text': !isDarkMode }">Sign into Design+Code HQ</h4>
+			<h4 :class="{ 'light-text': isDarkMode, 'dark-text': !isDarkMode }">Request Account</h4>
 			<form @submit.prevent="onSubmit">
 				<input
 					type="email"
@@ -14,18 +12,10 @@
 					v-model="email"
 					required
 				/>
-
-				<input
-					type="password"
-					placeholder="Password"
-					:class="{ 'light-field': isDarkMode, 'dark-field': !isDarkMode }"
-					v-model="password"
-					required
-				/>
-				<button>Sign In</button>
+				<button>Request Account</button>
 			</form>
-			<router-link to="/recover" :class="{ 'light-link': isDarkMode, 'dark-link': !isDarkMode }"
-				>Forgot your password?</router-link
+			<router-link to="/signin" :class="{ 'light-link': isDarkMode, 'dark-link': !isDarkMode }"
+				>Already have an account? Sign in now.</router-link
 			>
 			<ThemeSwitch />
 		</div>
@@ -33,17 +23,12 @@
 </template>
 
 <script>
-import RequestAccount from "@/components/RequestAccount";
 import ThemeSwitch from "@/components/ThemeSwitch";
-import Notification from "@/components/Notification";
-import { auth } from "@/main";
 
 export default {
 	name: "Request",
 	components: {
-		RequestAccount,
 		ThemeSwitch,
-		Notification,
 	},
 	// Add null data property as starting point
 	data() {
@@ -61,23 +46,33 @@ export default {
 		},
 	},
 	methods: {
-		toggleDarkMode() {
-			this.$store.commit("toggleDarkMode");
-		},
 		onSubmit() {
 			const email = this.email;
-			const password = this.password;
 
-			auth
-				.login(email, password, true)
-				.then((response) => {
-					// Go to the home page after sign in-> replace the current route with the home route
-					this.$router.replace("/");
-					console.log(response);
-				})
-				.catch((error) => {
-					alert("Error:" + error);
-				});
+			// Slack API Logic
+			let slackURL = new URL("https://slack.com/api/chat.postMessage");
+
+			const data = {
+				token: "xoxp-1898974687044-1889730969189-2016462129700-38eca8ac9c944f916e2c3c4d3be9b446",
+				channel: "hq1",
+				text: `${email} has requested admin access to HQ. Please go to Netlify to invite them!`,
+			};
+			// Attach the data to the URL
+			slackURL.search = new URLSearchParams(data);
+
+			fetch(slackURL).then(() => {
+				this.$router
+					.push({
+						name: "signin",
+						params: {
+							userRequestedAccount: true,
+							email: email,
+						},
+					})
+					.catch((error) => {
+						alert("Error: " + error);
+					});
+			});
 		},
 	},
 	mounted() {
