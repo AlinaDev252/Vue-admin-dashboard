@@ -61,9 +61,6 @@ export default {
 		},
 	},
 	methods: {
-		toggleDarkMode() {
-			this.$store.commit("toggleDarkMode");
-		},
 		onSubmit() {
 			const email = this.email;
 			const password = this.password;
@@ -86,6 +83,9 @@ export default {
 		if (params.userLoggedOut) {
 			this.hasText = true;
 			this.text = "You have logged out!";
+		} else if (params.userRecoveredAccount) {
+			this.hasText = true;
+			this.text = `A recovery email has been sent to ${params.email}`;
 		}
 	},
 };

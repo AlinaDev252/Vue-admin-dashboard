@@ -5,6 +5,7 @@ import store from "./store";
 // * means everything
 import * as netlifyIdentityWidget from "netlify-identity-widget";
 import GoTrue from "gotrue-js";
+import "animate.css";
 
 Vue.config.productionTip = false;
 
@@ -13,12 +14,12 @@ netlifyIdentityWidget.init();
 
 // Initialize GoTrue jJS for Netlify
 export const auth = new GoTrue({
-  APIUrl: "https://alinas-vue-dashboard.netlify.app/.netlify/identity",
-  setCookie: true,
+	APIUrl: "https://alinas-vue-dashboard.netlify.app/.netlify/identity",
+	setCookie: true,
 });
 
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+	router,
+	store,
+	render: (h) => h(App),
 }).$mount("#app");
